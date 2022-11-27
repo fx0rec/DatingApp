@@ -15,6 +15,7 @@ export class AppComponent implements OnInit{
   {
 
   }
+
   //On initialization we make a request to our API server through Http, 
   //which is injected into our class through the constructor
   ngOnInit(): void {
