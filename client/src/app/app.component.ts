@@ -12,7 +12,7 @@ export class AppComponent implements OnInit{
   title: string = 'DatingApp';
 
   //constructor
-  constructor(private accountService: AccountService) // Injecting HttpClient & AccountService
+  constructor(private accountService: AccountService) // Injecting AccountService
   {
 
   }
