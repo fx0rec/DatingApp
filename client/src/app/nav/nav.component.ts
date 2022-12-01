@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UrlSerializer } from '@angular/router';
 import { AccountService } from '../_services/account.service';
+
 
 @Component({
   selector: 'app-nav',
@@ -15,6 +17,14 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCurrentUser();
+  }
+
+  getCurrentUser(){
+    this.accountService.currentUser$.subscribe({
+      next: user => this.loggedIn = !!user, // Double exclamation !! means we're turning the user into a boolean. if User = true, none = false
+      error: error => console.log(error)
+    })
   }
 
   login(){
@@ -29,6 +39,7 @@ export class NavComponent implements OnInit {
   }
 
   logout(){
+    this.accountService.logout();
     this.loggedIn = false;
   }
 
