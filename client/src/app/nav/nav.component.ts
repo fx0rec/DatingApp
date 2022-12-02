@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { RouterModule, Routes } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -14,7 +15,8 @@ import { RouterModule, Routes } from '@angular/router';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(public accountService: AccountService, private router: Router) { //Injecting the services (AccountService + Router)
+  constructor(public accountService: AccountService, private router: Router, 
+    private toastr: ToastrService) { //Injecting the services (AccountService + Router)
     
   }
 
@@ -29,9 +31,10 @@ export class NavComponent implements OnInit {
     //So they essentially automatically unsub.
     this.accountService.login(this.model).subscribe({
       next: () => { 
+        this.toastr.success('Welcome!');
         this.router.navigateByUrl('/members')
       },
-      error: error => console.log(error)
+      error: error => this.toastr.error(error.error)
 
     }); 
   }
