@@ -33,11 +33,9 @@ namespace API.Controllers
         public ActionResult<string> GetServerError()
         {
             var thing = _context.Users.Find(-1);
-
             //Null reference exception, purposely repeated as it 100% gives an error.
             var thingToReturn = thing.ToString(); //runtime exception (error)
             return thingToReturn;
-            
         }
 
         [HttpGet("bad-request")]

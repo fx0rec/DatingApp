@@ -1,11 +1,5 @@
-using System.Text;
-using API.Data;
 using API.Extensions;
-using API.Interfaces;
-using API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +14,9 @@ builder.Services.AddIdentityServices(builder.Configuration);
 // ORDER IS ALWAYS IMPORTANT!
 
 var app = builder.Build();
+
+//Runs on top of all the other middleware and handles all exceptions, as if we write everything in a try{} catch{}
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP(S) request pipeline.
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
