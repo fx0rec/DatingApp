@@ -21,7 +21,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error) {
           switch (error.status) {
             /*Problem with the 400 Validation error is that it's hidden in an object
-            located in Error.Errors, so we need to */
+            located in Error.Errors, so we need to go into the object then loop through the arrays 
+            and push the individual elements into modelStateErrors[] and then finally throw it*/
             case 400:
               if (error.error.errors) {
                 const modelStateErrors = [];
@@ -30,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                     modelStateErrors.push(error.error.errors[key]);
                   }
                 }
-                throw modelStateErrors;
+                throw modelStateErrors.flat(); //turns 2 arrays into 1.
               }
               else {
                 this.toastr.error(error.error, error.status.toString());
