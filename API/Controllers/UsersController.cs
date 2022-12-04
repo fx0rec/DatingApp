@@ -17,8 +17,7 @@ namespace API.Controllers
             _context = context;
 
         }
-        //Allows unauthorized
-        [AllowAnonymous]
+        
         //End-point
         //Has to have the HttpGet attribute used to make the request
         [HttpGet] // This + [Route] makes up our Route
