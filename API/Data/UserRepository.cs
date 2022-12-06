@@ -20,12 +20,16 @@ namespace API.Data
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.UserName == username); // x=> x.UserName == username clarifies that AppUser.UserName == username 
+            return await _context.Users.
+            Include(p => p.Photos). //Includes photos
+            FirstOrDefaultAsync(x => x.UserName == username); // x=> x.UserName == username clarifies that AppUser.UserName == username 
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
-            return await _context.Users.ToListAsync(); //Returns a list of all users
+            return await _context.Users.
+            Include(p => p.Photos).
+            ToListAsync(); //Returns a list of all users + photos as included in the request
         }
 
         public async Task<bool> SaveAllAsync()
