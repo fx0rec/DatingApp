@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 //  Angular Services can be injected into our component or other services.
 //  It's represented by the @Injectable decorator.
@@ -22,7 +23,7 @@ import { User } from '../_models/user';
    of the application. Making it a good place to store any kind of State that we want our app to remember.
 */
 export class AccountService { 
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
   //This is for other components to ascertain whether or not a user is logged in.
   //This is a special kind of observable, called a BehaviorSubject
   //A BehaviorSubject which allows us to give an observable an initial value, that can be used elsewhere in the app.                                
