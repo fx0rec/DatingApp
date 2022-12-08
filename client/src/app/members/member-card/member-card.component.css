@@ -13,5 +13,27 @@
 
 .card-img-wrapper {
     overflow: hidden;
+    position: relative;
 }
 /**/
+
+.member-icons {
+    position: absolute;
+    bottom: -30%; /*Do not show buttons unless user is hovering over the cards, -30% is outside the box*/
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+}
+
+
+.card-img-wrapper:hover .member-icons { /*Target img-wrapper:hover, and member-icons*/
+    bottom: 0;
+    opacity: 1; 
+    /* Buttons become visible */
+}
+
+.animate {
+    transition: all 0.3s ease-in-out; 
+}
