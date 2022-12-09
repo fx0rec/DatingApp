@@ -16,3 +16,5 @@
     background-color: rgba(54, 53, 53, 0.087);
     border-top: none;
 }
+
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }
