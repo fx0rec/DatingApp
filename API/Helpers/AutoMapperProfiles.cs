@@ -22,7 +22,7 @@ namespace API.Helpers
             //It simply maps the properties from one to another, and is smart enough to infer that the int Age = GetAge()
             //It needs to be injected into the controller, so it needs a service.
 
-
+            CreateMap<MemberUpdateDto, AppUser>();
 
         }
     }
