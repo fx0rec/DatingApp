@@ -72,7 +72,9 @@ namespace API.Controllers
                                         //SingleOrDefaultAsync() || FirstOrDefaultAsync() either works fine.
                                         //If database has more than one entry with that username
                                         //It will throw an exception
-        var user = await _context.Users.SingleOrDefaultAsync(x =>
+        var user = await _context.Users
+        .Include(p => p.Photos)  //We must include photos, else it wont load the photo in the navbar
+        .SingleOrDefaultAsync(x =>
         x.UserName == loginDto.Username);
 
         if (user == null) return Unauthorized("Invalid username.");
@@ -87,7 +89,8 @@ namespace API.Controllers
          return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x=> x.IsMain)?.Url
             };
 
        }

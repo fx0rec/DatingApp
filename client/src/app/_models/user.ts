@@ -3,5 +3,6 @@ export interface User{
     //The angular style guide suggests not to start it with an I... (i.e IUser)
     username: string;
     token: string;
+    photoUrl: string;
 
 }
