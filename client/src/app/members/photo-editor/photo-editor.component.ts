@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Photo } from 'src/app/_models/photo';
@@ -20,7 +21,7 @@ export class PhotoEditorComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User | undefined;
 
-  constructor(private accountService: AccountService, private memberService: MembersService) { 
+  constructor(private accountService: AccountService, private memberService: MembersService, private toastr: ToastrService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if(user)this.user = user;
@@ -43,13 +44,25 @@ export class PhotoEditorComponent implements OnInit {
           this.user.photoUrl = photo.url;
           this.accountService.setCurrentUser(this.user); //Other components are subscribing to the user object(specifically our navbar), so when we update the main photo here, it'll update other components, in this case the nav bar
           this.member.photoUrl = photo.url //Displays the main image in the members page & photo cards.
-          this.member.photos.forEach(p => { //Loop over the photos
+          this.member.photos.forEach(p => {// Loop over the photos
             if(p.isMain) p.isMain = false;
             if(p.id === photo.id) p.isMain = true; 
           })
+          this.toastr.success('Main photo set!', undefined, {timeOut: 600});
         }
       }
      })
+  }
+
+  deletePhoto(photoId: number){
+    this.memberService.deletePhoto(photoId).subscribe({
+      next: () => {
+        if(this.member){//If logged in  obv true at this point) filter out the photo containing the photoId and refresh
+          this.member.photos = this.member.photos.filter(x => x.id !== photoId)
+        }
+      }
+    })
+
   }
 
   initializeUploader(){

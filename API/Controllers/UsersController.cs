@@ -114,5 +114,28 @@ namespace API.Controllers
             //If that fails, return a bad request.
             return BadRequest("Problem setting main photo");
         }
+
+        [HttpDelete("delete-photo/{photoId}")]
+        public async Task<ActionResult> DeletePhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            if(user == null) return NotFound("User not found");
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+            if(photo == null) return NotFound();
+
+            if(photo.IsMain) return BadRequest("You cannot delete your main photo");
+
+            if(photo.PublicId != null) //make it impossible to delete Seeded photos from cloudinary, because they're not in the cloudinary repository
+            {
+                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if(result.Error != null) return BadRequest(result.Error.Message); //Error passed back from cloudinary
+            }
+            user.Photos.Remove(photo);
+
+            if(await _userRepository.SaveAllAsync()) return Ok(); //OK is the correct response for a HttpDelete reques
+            return BadRequest("Problem deleting photo"); 
+
+        }
     }
 }

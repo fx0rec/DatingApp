@@ -8,7 +8,11 @@
                 (click)="setMainPhoto(photo)"
                 [ngClass]="photo.isMain ? 'btn-success active' : 'btn-outline-success'"
                 >Main</button>
-            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+            <button 
+                class="btn btn-sm btn-danger"
+                [disabled]="photo.isMain"
+                (click)="deletePhoto(photo.id)"
+                ><i class="fa fa-trash"></i></button>
         </div>
     </div>
 </div>
@@ -26,9 +30,6 @@
              <i class="fa fa-upload fa-3x"></i>
             Base photos here
         </div>
-
-        Multiple
-        <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
 
         Single
         <input type="file" ng2FileSelect [uploader]="uploader" />
