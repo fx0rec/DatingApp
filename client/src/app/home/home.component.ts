@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +9,7 @@ export class HomeComponent implements OnInit {
   registerMode = false;
   users: any; //To work with the getUsers()
 
-  constructor(private http: HttpClient) { } //Injecting HttpClient to work with getUsers()
+  constructor() { } //Injecting HttpClient to work with getUsers()
 
   ngOnInit(): void {
     //this.getUsers();
